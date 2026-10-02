@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Как запустить MiroFish — толпу из ИИ-людей</title>
+<meta name="description" content="Открытый проект: тысячи ИИ-жителей обсуждают твою новость. Как запустить через Claude Code за 6 шагов. От @artemh_ai.">
+<meta property="og:title" content="Как запустить MiroFish">
+<meta property="og:description" content="Толпа из ИИ-людей обсудит твою новость. Запуск через Claude Code за 6 шагов.">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#141413">
+<style>
+  :root {
+    --bg: #141413;
+    --card: #1f1e1d;
+    --line: #2e2d2b;
+    --text: #f0eee6;
+    --muted: #a3a09a;
+    --accent: #d97757;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding: 28px 18px calc(40px + env(safe-area-inset-bottom));
+  }
+  main { max-width: 560px; margin: 0 auto; }
+  .tag {
+    display: inline-block;
+    font: 600 12px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: .08em;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 6px 8px;
+  }
+  h1 { font-size: 30px; line-height: 1.15; margin: 16px 0 10px; letter-spacing: -.01em; }
+  .lead { color: var(--muted); }
+  ol { list-style: none; margin-top: 22px; }
+  .item {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 12px;
+  }
+  .num { font: 600 13px ui-monospace, "SF Mono", Menlo, monospace; color: var(--accent); }
+  h2 { font-size: 19px; line-height: 1.3; margin: 2px 0 6px; }
+  p + p { margin-top: 8px; }
+  .item p { color: #d6d3cb; font-size: 16px; }
+  code {
+    font: 14px ui-monospace, "SF Mono", Menlo, monospace;
+    background: #2a2927; color: var(--text);
+    border-radius: 5px; padding: 1px 6px; overflow-wrap: anywhere;
+  }
+  .bonus { border-color: var(--accent); }
+  .bonus .num { color: var(--accent); }
+  .cta { margin-top: 28px; text-align: center; }
+  .cta p { color: var(--muted); font-size: 15px; margin-bottom: 14px; }
+  .btn {
+    display: block; width: 100%;
+    font: 600 17px/1 inherit; font-family: inherit;
+    padding: 16px; border-radius: 12px; border: 0;
+    text-decoration: none; cursor: pointer;
+  }
+  .btn-main { background: var(--accent); color: #fff; }
+  .foot { margin-top: 26px; text-align: center; font-size: 13px; color: #6f6c66; }
+  .top { margin-top: 18px; }
+  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  .prompt {
+    margin-top: 10px; background: #2a2927; border-radius: 10px; padding: 12px 14px;
+    font: 14px/1.45 ui-monospace, "SF Mono", Menlo, monospace; color: var(--text); white-space: pre-wrap;
+  }
+  .copy { margin-top: 10px; padding: 12px; font-size: 15px; }
+  .item ul { list-style: none; margin-top: 8px; }
+  .item li + li { margin-top: 8px; }
+  .item li { color: #d6d3cb; font-size: 16px; padding-left: 14px; position: relative; }
+  .item li::before { content: "·"; position: absolute; left: 2px; color: var(--accent); }
+  a { color: var(--accent); }
+  .toast {
+    position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom));
+    transform: translateX(-50%) translateY(20px); opacity: 0;
+    background: var(--text); color: var(--bg);
+    padding: 10px 16px; border-radius: 10px; font-size: 15px;
+    transition: .2s; pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<main>
+  <span class="tag">MIROFISH · КАК ЗАПУСТИТЬ</span>
+  <h1>Как запустить MiroFish — толпу из ИИ-людей</h1>
+  <p class="lead">Кидаешь новость или идею — тысячи ИИ-жителей её обсуждают, на выходе отчёт. Код открытый и бесплатный, платишь только за токены нейросети. Сверено с README проекта, октябрь 2026.</p>
+  <a class="btn btn-ghost top" href="https://github.com/666ghj/MiroFish" target="_blank" rel="noopener">MiroFish на GitHub</a>
+
+  <ol>
+    <li class="item">
+      <span class="num">01</span>
+      <h2>Открой Claude Code в пустой папке</h2>
+      <p>Подойдёт и Cursor. Python, Node и зависимости руками ставить не нужно — это сделает Клод.</p>
+    </li>
+    <li class="item">
+      <span class="num">02</span>
+      <h2>Вставь ему этот промпт</h2>
+      <div class="prompt" id="prompt">Склонируй https://github.com/666ghj/MiroFish и запусти по README. Поставь всё, что нужно: Node 18+, Python 3.11–3.12, uv. Создай .env из .env.example, ключи спроси у меня. Когда запустится — скажи, какой адрес открыть.</div>
+      <button class="btn btn-main copy" id="copy">Скопировать промпт</button>
+    </li>
+    <li class="item">
+      <span class="num">03</span>
+      <h2>Возьми два ключа</h2>
+      <ul>
+        <li><b>Нейросеть.</b> Подойдёт любой API в формате OpenAI. Авторы советуют <code>qwen-plus</code> на <a href="https://bailian.console.aliyun.com/" target="_blank" rel="noopener">Alibaba Bailian</a>. В <code>.env</code> это <code>LLM_API_KEY</code>, <code>LLM_BASE_URL</code>, <code>LLM_MODEL_NAME</code> — Клод подскажет, что куда.</li>
+        <li><b>Память жителей.</b> <a href="https://app.getzep.com/" target="_blank" rel="noopener">Zep Cloud</a> — есть бесплатная квота на месяц. В <code>.env</code> это <code>ZEP_API_KEY</code>.</li>
+      </ul>
+    </li>
+    <li class="item">
+      <span class="num">04</span>
+      <h2>Открой <code>localhost:3000</code></h2>
+      <p>Если интерфейс на китайском — переключи язык на английский.</p>
+    </li>
+    <li class="item">
+      <span class="num">05</span>
+      <h2>Запусти первую симуляцию</h2>
+      <p>Загрузи «зерно»: новость, отчёт, описание продукта. Вопрос пиши обычными словами: «Как люди отреагируют на подписку за 990 ₽?»</p>
+      <p>Первые прогоны — до 40 раундов. Так советуют авторы: токены он ест прилично.</p>
+    </li>
+    <li class="item">
+      <span class="num">06</span>
+      <h2>Читай отчёт и спрашивай жителей</h2>
+      <p>После симуляции MiroFish пишет отчёт. С любым ИИ-жителем можно поговорить: почему он против, что его зацепит.</p>
+    </li>
+    <li class="item bonus">
+      <span class="num">ВАЖНО</span>
+      <h2>Это симуляция, не гадалка</h2>
+      <p>Точных цифр будущего она не даёт. Используй как репетицию: какие вопросы зададут, на что разозлятся, что поправить до запуска.</p>
+    </li>
+  </ol>
+
+  <div class="cta">
+    <p>Есть друг, который вечно гадает «зайдёт или нет»?</p>
+    <button class="btn btn-main" id="share">Переслать другу</button>
+  </div>
+
+  <p class="foot">@artemh_ai · ИИ и вайбкод</p>
+</main>
+
+<div class="toast" id="toast">Скопировано</div>
+
+<script>
+  const toast = s => { const t = document.getElementById('toast'); t.textContent = s; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1800); };
+  document.getElementById('copy').addEventListener('click', async () => {
+    await navigator.clipboard.writeText(document.getElementById('prompt').textContent);
+    toast('Промпт скопирован');
+  });
+  document.getElementById('share').addEventListener('click', async () => {
+    const data = { title: document.title, text: 'Как запустить MiroFish — толпу из ИИ-людей', url: location.href };
+    if (navigator.share) { try { await navigator.share(data); } catch (e) {} return; }
+    await navigator.clipboard.writeText(location.href);
+    toast('Ссылка скопирована');
+  });
+</script>
+</body>
+</html>
