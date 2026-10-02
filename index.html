@@ -79,6 +79,10 @@
   .item li { color: #d6d3cb; font-size: 16px; padding-left: 14px; position: relative; }
   .item li::before { content: "·"; position: absolute; left: 2px; color: var(--accent); }
   a { color: var(--accent); }
+  .tg { margin-top: 28px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 16px 16px; text-align: center; }
+  .tg h2 { margin: 0 0 6px; }
+  .tg p { color: var(--muted); font-size: 15px; margin-bottom: 14px; }
+  .btn-tg { background: #2aabee; color: #fff; }
   .toast {
     position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom));
     transform: translateX(-50%) translateY(20px); opacity: 0;
@@ -138,6 +142,12 @@
       <p>Точных цифр будущего она не даёт. Используй как репетицию: какие вопросы зададут, на что разозлятся, что поправить до запуска.</p>
     </li>
   </ol>
+
+  <div class="tg">
+    <h2>Больше разборов — в Telegram</h2>
+    <p>Канал «Out of Tokens — ИИ и Вайбкод»: развёрнутые разборы инструментов и закулисье роликов.</p>
+    <a class="btn btn-tg" href="https://t.me/artemh_ai" target="_blank" rel="noopener">Открыть канал в Telegram</a>
+  </div>
 
   <div class="cta">
     <p>Есть друг, который вечно гадает «зайдёт или нет»?</p>
